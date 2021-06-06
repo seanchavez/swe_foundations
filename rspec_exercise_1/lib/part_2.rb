@@ -11,3 +11,15 @@ def vowel_counts(str)
   end
   vowel_tally
 end
+
+def caesar_cipher(message, n)
+  alphabet = ("a".."z").to_a
+  message.chars.map do |char|
+    if char =~ /[a-z]/
+      new_i = alphabet.index(char) + n
+      alphabet[new_i % 26]
+    else
+      char
+    end
+  end.join
+end
