@@ -21,11 +21,11 @@ def censor(sentence, curse_words)
 end
 
 def power_of_two?(num)
-if num == 1 || num == 2
-  true
-elsif num == 3
-  false
-else
-  power_of_two?(num / 2)
-end
+  if num == 1 || num == 2
+    true
+  elsif num == 3
+    false
+  else
+    power_of_two?(num / 2)
+  end
 end
