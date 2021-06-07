@@ -6,7 +6,9 @@ describe "Part 1:" do
       expect { partition([11, 5, 13, 2, 3], 7) }.to_not raise_error
     end
 
-    it "should return a 2D array of length 2 where the first subarray contains elements less than the number arg and the second subarray contains elements greater than or equal to the number arg" do
+    it "should return a 2D array of length 2 where the first subarray contains
+       elements less than the number arg and the second subarray contains
+       elements greater than or equal to the number arg" do
       expect(partition([11, 5, 13, 2, 3], 7)).to eq([[5, 2, 3], [11, 13]])
       expect(partition([1, 2, 4, 3, 5, 7], 5)).to eq([[1, 2, 4, 3], [5, 7]])
       expect(partition([1, 2, 4, 3], 0)).to eq([[], [1, 2, 4, 3]])
