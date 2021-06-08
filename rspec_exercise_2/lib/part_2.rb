@@ -17,7 +17,11 @@ def substrings(str)
       subs << str[i..j]
       j += 1
     end
-    i +=1
+    i += 1
   end
   subs
+end
+
+def palindrome_substrings(str)
+  substrings(str).select {|sub| sub.length > 1 && palindrome?(sub)}
 end
