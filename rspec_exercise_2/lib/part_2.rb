@@ -9,5 +9,15 @@ def palindrome?(str)
 end
 
 def substrings(str)
-  
+  subs = []
+  i = 0
+  while i < str.length
+    j = i
+    while j < str.length
+      subs << str[i..j]
+      j += 1
+    end
+    i +=1
+  end
+  subs
 end
