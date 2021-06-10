@@ -23,3 +23,9 @@ def dupe_indices(arr)
   arr.each_with_index {|el, i| dupe_to_indicices[el] += [i] if arr.count(el) > 1}
   dupe_to_indicices
 end
+
+def ana_array(arr_1, arr_2)
+  return false if arr_1.length != arr_2.length
+  arr_1.each {|el| return false unless arr_1.count(el) == arr_2.count(el)}
+  true
+end
