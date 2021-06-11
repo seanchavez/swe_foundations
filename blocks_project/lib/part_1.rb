@@ -1,5 +1,3 @@
-require "byebug"
-
 def select_even_nums(nums)
   nums.select(&:even?)
 end
