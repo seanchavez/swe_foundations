@@ -22,4 +22,20 @@ class Array
     self.each {|el| count_h[el] += 1}
     count_h
   end
+
+  def my_count(val)
+    self.reduce(0) {|count, el| el == val ? count + 1 : count}
+  end
+
+  def my_index(val)
+    self.each_with_index {|el, i| return i if el == val}
+    nil
+  end
+
+  def my_uniq
+    uniques = []
+    self.each {|el| uniques << el unless uniques.include?(el)}
+    uniques
+  end
 end
+
