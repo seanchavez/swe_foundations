@@ -33,9 +33,14 @@ class Array
   end
 
   def my_uniq
-    uniques = []
-    self.each {|el| uniques << el unless uniques.include?(el)}
-    uniques
+    self.reduce({}) do |uniq_h, el| 
+      uniq_h[el] = true
+      uniq_h
+    end.keys
+  end
+
+
+  def my_transpose
+    self.map.with_index {|arr, i| arr.map.with_index {|_, j| self[j][i]}}
   end
 end
-
