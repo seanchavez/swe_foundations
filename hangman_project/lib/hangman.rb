@@ -59,4 +59,22 @@ class Hangman
     guess = gets.chomp
     self.try_guess(guess)
   end
+
+  def win?
+    return false unless @guess_word.join == @secret_word
+    puts "WIN"
+    true
+  end
+
+  def lose?
+    return false unless @remaining_incorrect_guesses == 0
+    puts "LOSE"
+    true
+  end
+
+  def game_over?
+    return false unless self.win? || self.lose?
+    puts @secret_word
+    true
+  end
 end
