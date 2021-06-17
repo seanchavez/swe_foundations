@@ -1,8 +1,7 @@
 require "employee"
 
 class Startup
-  attr_reader :name, :salaries, :employees
-  attr_accessor :funding
+  attr_reader :name, :funding, :salaries, :employees
 
   def initialize(name, funding, salaries)
     @name = name
@@ -16,7 +15,7 @@ class Startup
   end
 
   def >(other_startup)
-    self.funding > other_startup.funding
+    @funding > other_startup.funding
   end
 
   def hire(employee_name, title)
@@ -33,15 +32,33 @@ class Startup
 
   def pay_employee(employee)
     salary =@salaries[employee.title]
-    if self.funding < salary
+    if @funding < salary
       raise "NOT ENOUGH FUNDING"
     else
-      self.funding -= salary
+      @funding -= salary
       employee.pay(salary)
     end
   end
 
   def payday
     @employees.each {|emp| self.pay_employee(emp)}
+  end
+
+  def average_salary
+    @employees.reduce(0) do |sum, emp| 
+      sum + salaries[emp.title] 
+    end / employees.length.to_f
+  end
+
+  def close
+    @employees = []
+    @funding = 0
+  end
+
+  def acquire(other_startup)
+    @funding += other_startup.funding
+    @employees += other_startup.employees
+    @salaries = other_startup.salaries.merge(@salaries)
+    other_startup.close
   end
 end
