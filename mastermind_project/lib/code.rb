@@ -6,7 +6,29 @@ class Code
     "Y" => :yellow
   }
 
-  def self.valid_pegs?(chars)
-    chars.all? {|char| POSSIBLE_PEGS.include?(char.upcase)}
+  def self.valid_pegs?(pegs)
+    pegs.all? {|peg| POSSIBLE_PEGS.include?(peg.upcase)}
+  end
+
+  def self.random(length)
+    Code.new(Array.new(length) {POSSIBLE_PEGS.keys.sample})
+  end
+
+  def self.from_string(peg_s)
+    Code.new(peg_s.chars)
+  end
+
+  attr_reader :pegs
+
+  def initialize(pegs)
+    Code.valid_pegs?(pegs) ? @pegs = pegs.map(&:upcase) : (raise "INVALID PEGS")
+  end
+
+  def [](index)
+    @pegs[index]
+  end
+
+  def length
+    @pegs.length
   end
 end
