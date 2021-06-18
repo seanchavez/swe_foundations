@@ -1,3 +1,4 @@
+
 class Board
   def initialize(n)
     @grid = Array.new(n) {Array.new(n, :N)}
@@ -30,14 +31,10 @@ class Board
   end
 
   def place_random_ships
-    left_to_set = (self.size / 0.25).to_i
-    until left_to_set == 0
-      dimension = Math.sqrt(self.size)
-      pos = [rand(dimension), rand(dimension)]
-      unless self[pos] == :S
-        self[pos] = :S
-        left_to_set -= 1
-      end
+    ships_needed = @size * 0.25
+    while self.num_ships < ships_needed
+      pos = [rand(@grid.length), rand(@grid.length)]
+      self[pos] = :S
     end
   end
 end
