@@ -37,13 +37,16 @@ class Code
   end
 
   def num_near_matches(guess)
-    count = 0
-    guess.pegs.each_with_index do |peg, i|
-      if @pegs.include?(peg) && peg != @pegs[i]
-        count += 1
+    filtered_guess = guess.pegs.reject.with_index {|peg, i| peg == @pegs[i]}
+    filtered_code = @pegs.reject.with_index {|peg, i| peg == guess.pegs[i]}
+    filtered_guess.reduce(0) do |near_matches, peg|
+      if filtered_code.include?(peg)
+        filtered_code.slice!(filtered_code.index(peg))
+        near_matches + 1
+      else
+        near_matches
       end
     end
-    count
   end
 
   def ==(other_code)
