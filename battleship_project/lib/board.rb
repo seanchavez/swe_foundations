@@ -1,5 +1,9 @@
 
 class Board
+  def self.print_grid(grid)
+    grid.each {|row| puts row.join(" ")} 
+  end
+
   def initialize(n)
     @grid = Array.new(n) {Array.new(n, :N)}
     @size = n * n
@@ -36,5 +40,17 @@ class Board
       pos = [rand(@grid.length), rand(@grid.length)]
       self[pos] = :S
     end
+  end
+
+  def hidden_ships_grid
+    @grid.map {|row| row.map.with_index {|el, i| el == :S ? :N : el}}
+  end
+
+  def cheat
+    Board.print_grid(@grid)
+  end
+
+  def print
+    Board.print_grid(self.hidden_ships_grid)
   end
 end
