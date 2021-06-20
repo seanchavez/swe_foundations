@@ -12,11 +12,8 @@
 # pow(3, 4) # => 81
 # pow(4, 3) # => 64
 def pow(base, exponent)
-  case exponent
-  when 0 then 1
-  when 1 then base
-  else base * pow(base, exponent - 1)
-  end
+  return 1 if exponent == 0
+  base * pow(base, exponent - 1)
 end
 
 
@@ -59,7 +56,8 @@ end
 # sum_array([5, 2])         # => 7
 # sum_array([4, 10, -1, 2]) # => 15
 def sum_array(array)
-
+  return 0 if array.empty?
+  array[0] + sum_array(array[1..-1])
 end
 
 
@@ -75,7 +73,8 @@ end
 # reverse_string("internet")    # => "tenretni"
 # reverse_string("friends")     # => "sdneirf"
 def reverse_string(str)
-
+  return "" if str.length == 0
+  reverse_string(str[1..-1]) + str[0]
 end
 
 
@@ -108,5 +107,6 @@ end
 #     2-dimensional array: [['some data']]
 #     3-dimensional array: [[['some data']]]
 def flatten(data)
-
+  return [data] unless data.instance_of? Array
+  data.reduce([]) {|flat, el| flat + flatten(el)} 
 end
