@@ -32,7 +32,11 @@ end
 class Array
     # Write a method, Array#pair_sum_count, that takes in a target number returns the number of pairs of elements that sum to the given target
     def pair_sum_count(num)
-
+      count = 0
+      (0...self.length - 1).each do |i|
+        (i...self.length).each {|j| count += 1 if self[i] + self[j] == num}
+      end
+      count
     end
 
     # Write a method, Array#bubble_sort, that takes in an optional proc argument.
@@ -49,6 +53,27 @@ class Array
     #
     # This should remind you of the spaceship operator! Convenient :)
     def bubble_sort(&prc)
-
+      prc ||= Proc.new {|a, b| a <=> b}
+      part = self.length - 1
+      while part > 0 
+        (1..part).each do |i|
+          self[i - 1], self[i] = self[i], self[i - 1] if prc.call(self[i], self[i - 1]) < 0
+        end
+        part -= 1
+      end
+      self
     end
 end
+
+
+def bubble_sorta(arr)
+      srtd = [*arr]
+      part = arr.length - 1
+      while part > 0 
+        (1..part).each do |i|
+          srtd[i - 1], srtd[i] = srtd[i], srtd[i - 1] if srtd[i] < srtd[i - 1]
+        end
+        part -= 1
+      end
+      srtd
+    end
