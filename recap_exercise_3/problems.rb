@@ -32,15 +32,9 @@ p char_indices('classroom')     # => {"c"=>[0], "l"=>[1], "a"=>[2], "s"=>[3, 4],
 def longest_streak(str)
   longest = ""
   streak = ""
-  (0...str.length).each do |i|
+  str.length.times do |i|
+    str[i] == str[i - 1] ? streak << str[i] : streak = str[i]
     longest = streak if streak.length >= longest.length
-    if str[i] == str[i - 1]
-      streak << str[i]
-    longest = streak if streak.length >= longest.length
-    else
-      streak = str[i]
-    longest = streak if streak.length >= longest.length
-    end
   end
   longest
 end
@@ -68,3 +62,37 @@ p bi_prime?(25)   # => true
 p bi_prime?(94)   # => true
 p bi_prime?(24)   # => false
 p bi_prime?(64)   # => false
+
+def vigenere_cipher(message, keys)
+  alphabet = ("a".."z").to_a
+  cipher_txt = ""
+  key_i = 0
+  message.each_char do |char|
+    cipher_txt << alphabet[(alphabet.index(char) + keys[key_i]) % 26]
+    key_i == keys.length - 1 ? key_i = 0 : key_i += 1
+  end
+  cipher_txt
+end
+
+# Examples
+p vigenere_cipher("toerrishuman", [1])        # => "upfssjtivnbo"
+p vigenere_cipher("toerrishuman", [1, 2])     # => "uqftsktjvobp"
+p vigenere_cipher("toerrishuman", [1, 2, 3])  # => "uqhstltjxncq"
+p vigenere_cipher("zebra", [3, 0])            # => "ceerd"
+p vigenere_cipher("yawn", [5, 1])             # => "dbbo"
+
+def vowel_rotate(str)
+  vowels = %w(a e i o u)
+  vowels_in_str = str.chars.select {|char| vowels.include?(char)}
+  vowels_in_str = [vowels_in_str[-1]] + vowels_in_str[0..-2]
+  str.chars.map.with_index do |char, i|
+    vowels.include?(char) ? vowels_in_str.shift : char
+  end.join
+end
+
+# Examples
+p vowel_rotate('computer')      # => "cempotur"
+p vowel_rotate('oranges')       # => "erongas"
+p vowel_rotate('headphones')    # => "heedphanos"
+p vowel_rotate('bootcamp')      # => "baotcomp"
+p vowel_rotate('awesome')       # => "ewasemo"
