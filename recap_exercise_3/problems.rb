@@ -7,6 +7,7 @@ p no_dupes?([1, 1, 2, 1, 3, 2, 4])         # => [3, 4]
 p no_dupes?(['x', 'x', 'y', 'z', 'z'])     # => ['y']
 p no_dupes?([true, true, true])            # => []
 
+
 def no_consecutive_repeats?(arr)
   (1...arr.length).each {|i| return false if arr[i] == arr[i - 1]}
   return true
@@ -19,6 +20,7 @@ p no_consecutive_repeats?([10, 42, 3, 7, 10, 3])              # => true
 p no_consecutive_repeats?([10, 42, 3, 3, 10, 3])              # => false
 p no_consecutive_repeats?(['x'])                              # => true
 
+
 def char_indices(str)
   indices = Hash.new {|h, k| h[k] = []}
   str.each_char.with_index {|char, i| indices[char] << i}
@@ -28,6 +30,7 @@ end
 # Examples
 p char_indices('mississippi')   # => {"m"=>[0], "i"=>[1, 4, 7, 10], "s"=>[2, 3, 5, 6], "p"=>[8, 9]}
 p char_indices('classroom')     # => {"c"=>[0], "l"=>[1], "a"=>[2], "s"=>[3, 4], "r"=>[5], "o"=>[6, 7], "m"=>[8]}
+
 
 def longest_streak(str)
   longest = ""
@@ -46,6 +49,7 @@ p longest_streak('aaaxyyyyyzz') # => 'yyyyy
 p longest_streak('aaabbb')      # => 'bbb'
 p longest_streak('abc')         # => 'c'
 
+
 def bi_prime?(num)
   primes = []
   (2..num).each {|m| primes << m if (2..m / 2).none? {|n| m % n == 0}}
@@ -63,13 +67,14 @@ p bi_prime?(94)   # => true
 p bi_prime?(24)   # => false
 p bi_prime?(64)   # => false
 
+
 def vigenere_cipher(message, keys)
   alphabet = ("a".."z").to_a
   cipher_txt = ""
   key_i = 0
   message.each_char do |char|
     cipher_txt << alphabet[(alphabet.index(char) + keys[key_i]) % 26]
-    key_i == keys.length - 1 ? key_i = 0 : key_i += 1
+    key_i = (key_i + 1) % keys.length
   end
   cipher_txt
 end
@@ -80,6 +85,7 @@ p vigenere_cipher("toerrishuman", [1, 2])     # => "uqftsktjvobp"
 p vigenere_cipher("toerrishuman", [1, 2, 3])  # => "uqhstltjxncq"
 p vigenere_cipher("zebra", [3, 0])            # => "ceerd"
 p vigenere_cipher("yawn", [5, 1])             # => "dbbo"
+
 
 def vowel_rotate(str)
   vowels = %w(a e i o u)
@@ -96,3 +102,45 @@ p vowel_rotate('oranges')       # => "erongas"
 p vowel_rotate('headphones')    # => "heedphanos"
 p vowel_rotate('bootcamp')      # => "baotcomp"
 p vowel_rotate('awesome')       # => "ewasemo"
+
+
+class String
+  def select(&prc)
+    selected = ""
+    return selected unless prc
+    self.each_char {|char| selected << char if prc.call(char)}
+    selected
+  end
+
+  def map!(&prc)
+    self.length.times {|i| self[i] = prc.call(self[i], i)}
+  end
+end
+
+# Examples
+p "app academy".select { |ch| !"aeiou".include?(ch) }   # => "pp cdmy"
+p "HELLOworld".select { |ch| ch == ch.upcase }          # => "HELLO"
+p "HELLOworld".select          # => ""
+
+# Examples
+word_1 = "Lovelace"
+word_1.map! do |ch| 
+    if ch == 'e'
+        '3'
+    elsif ch == 'a'
+        '4'
+    else
+        ch
+    end
+end
+p word_1        # => "Lov3l4c3"
+
+word_2 = "Dijkstra"
+word_2.map! do |ch, i|
+    if i.even?
+        ch.upcase
+    else
+        ch.downcase
+    end
+end
+p word_2        # => "DiJkStRa"
