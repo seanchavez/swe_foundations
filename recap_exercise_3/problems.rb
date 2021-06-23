@@ -144,3 +144,66 @@ word_2.map! do |ch, i|
     end
 end
 p word_2        # => "DiJkStRa"
+
+def multiply(a, b)
+  return a if a == 0
+  if a.positive?
+    b + multiply(a - 1, b)
+  else
+    -b + multiply(a + 1, b)
+  end
+end
+
+# Examples
+p multiply(3, 5)        # => 15
+p multiply(5, 3)        # => 15
+p multiply(2, 4)        # => 8
+p multiply(0, 10)       # => 0
+p multiply(-3, -6)      # => 18
+p multiply(3, -6)       # => -18
+p multiply(-3, 6)       # => -18
+
+
+def lucas_sequence(n)
+  case n
+  when 0 then []
+  when 1 then [2]
+  when 2 then [2, 1]
+  else  
+    lucas_sequence(n - 1) << lucas_sequence(n - 1)[-1] + lucas_sequence(n - 1)[-2]
+  end
+end
+
+# Examples
+p lucas_sequence(0)   # => []
+p lucas_sequence(1)   # => [2]    
+p lucas_sequence(2)   # => [2, 1]
+p lucas_sequence(3)   # => [2, 1, 3]
+p lucas_sequence(6)   # => [2, 1, 3, 4, 7, 11]
+p lucas_sequence(8)   # => [2, 1, 3, 4, 7, 11, 18, 29]
+
+
+def prime_factorization(num)
+  return [] if num < 2
+  primes = []
+  (2..num).each {|m| primes << m if (2..m / 2).none? {|n| m % n == 0}}
+  return [num] if primes.include?(num)
+  factor = prime_factor = nil
+  primes.each do |prime|
+    if num % prime == 0
+      factor = num / prime
+      prime_factor = prime
+      break
+    end
+  end
+  [prime_factor] + prime_factorization(factor)
+end
+
+# Examples
+p prime_factorization(12)     # => [2, 2, 3]
+p prime_factorization(24)     # => [2, 2, 2, 3]
+p prime_factorization(25)     # => [5, 5]
+p prime_factorization(60)     # => [2, 2, 3, 5]
+p prime_factorization(7)      # => [7]
+p prime_factorization(11)     # => [11]
+p prime_factorization(2017)   # => [2017]
