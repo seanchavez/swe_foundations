@@ -68,3 +68,42 @@ p squarocol?([
     [0, 5, 2, 7],
     [4, 2, 9, 7],
 ]) # false
+
+
+def squaragonal?(matrix)
+  first = matrix[0][0]
+  last = matrix[0][-1]
+  j = matrix[0].length - 1
+  matrix.each_with_index do |sub, i|
+    return false unless sub[i] == first || sub[j] == last
+    j -= 1
+  end
+  matrix.each
+  true
+end
+
+p squaragonal?([
+    [:x, :y, :o],
+    [:x, :x, :x],
+    [:o, :o, :x],
+]) # true
+
+p squaragonal?([
+    [:x, :y, :o],
+    [:x, :o, :x],
+    [:o, :o, :x],
+]) # true
+
+p squaragonal?([
+    [1, 2, 2, 7],
+    [1, 1, 6, 7],
+    [0, 5, 1, 7],
+    [4, 2, 9, 1],
+]) # true
+
+p squaragonal?([
+    [1, 2, 2, 5],
+    [1, 6, 5, 0],
+    [0, 2, 2, 7],
+    [5, 2, 9, 7],
+]) # false
