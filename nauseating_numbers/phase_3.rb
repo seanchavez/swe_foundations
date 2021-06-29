@@ -107,3 +107,41 @@ p squaragonal?([
     [0, 2, 2, 7],
     [5, 2, 9, 7],
 ]) # false
+
+
+def pascals_triangle(n)
+  triangle = [[1]]
+  (n - 1).times do
+    row = []
+    (0..triangle.length).each do |i|
+      if triangle[i].first.nil? || triangle[i].last.nil?
+     # if triangle[i - 1].nil? || triangle[i + 1].nil? 
+        row << triangle[i][i] 
+      else
+        row << triangle[i][i - 1] + triangle[i][i]
+      end
+    end
+    triangle << row
+  end
+  triangle
+end
+
+p pascals_triangle(5)
+# [
+#     [1],
+#     [1, 1],
+#     [1, 2, 1],
+#     [1, 3, 3, 1],
+#     [1, 4, 6, 4, 1]
+# ]
+
+p pascals_triangle(7)
+# [
+#     [1],
+#     [1, 1],
+#     [1, 2, 1],
+#     [1, 3, 3, 1],
+#     [1, 4, 6, 4, 1],
+#     [1, 5, 10, 10, 5, 1],
+#     [1, 6, 15, 20, 15, 6, 1]
+# ]
