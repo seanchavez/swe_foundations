@@ -1,18 +1,14 @@
+require_relative "phase_2.rb" # matrix_addition
+
 def matrix_addition_reloaded(*matrices)
   height = matrices.first.length
   width = matrices.first.first.length
-  matrices.each do |matrix| 
+  new_matrix = Array.new(height) {Array.new(width, 0)}
+  matrices.reduce(new_matrix) do |matrix_sum, matrix|
     return nil unless matrix.length == height
     matrix.each {|row| return nil unless row.length == width}
+    matrix_addition(matrix_sum, matrix)
   end
-  new_matrix = Array.new(height) {Array.new(width)}
-  height.times do |i|
-    width.times do |j|
-      sum = matrices.reduce(0) {|memo, matrix| memo + matrix[i][j]} 
-      new_matrix[i][j] = sum
-    end
-  end
-  new_matrix
 end
 
 matrix_a = [[2,5], [4,7]]
@@ -111,17 +107,12 @@ p squaragonal?([
 
 def pascals_triangle(n)
   triangle = [[1]]
-  (n - 1).times do
-    row = []
-    (0..triangle.length).each do |i|
-      if triangle[i].first.nil? || triangle[i].last.nil?
-     # if triangle[i - 1].nil? || triangle[i + 1].nil? 
-        row << triangle[i][i] 
-      else
-        row << triangle[i][i - 1] + triangle[i][i]
-      end
+  until triangle.length == n
+    row = [1]
+    (0...triangle.last.length - 1).each do |i|
+      row << triangle.last[i] + triangle.last[i + 1]
     end
-    triangle << row
+    triangle << (row << 1)
   end
   triangle
 end
