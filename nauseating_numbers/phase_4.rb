@@ -1,3 +1,5 @@
+require "byebug"
+
 def mersenne_prime(n)
   count = 0
   pow = 1
@@ -46,3 +48,30 @@ p triangular_word?('aa')        # false
 p triangular_word?('cd')        # false
 p triangular_word?('cat')       # false
 p triangular_word?('sink')      # false
+
+
+def consecutive_collapse(nums)
+  collapsed = [*nums]
+  done = false
+  until done
+    done = true
+    #debugger
+    collapsed.each_index do |i|
+      if collapsed[i - 1] == collapsed[i].pred || collapsed[i - 1] == collapsed[i].next
+        collapsed = collapsed[0...i - 1] + collapsed[i + 1..-1]
+        done = false
+        break
+      end  
+    end
+  end
+  collapsed
+end
+
+p consecutive_collapse([3, 4, 1])                     # [1]
+p consecutive_collapse([1, 4, 3, 7])                  # [1, 7]
+p consecutive_collapse([9, 8, 2])                     # [2]
+p consecutive_collapse([9, 8, 4, 5, 6])               # [6]
+p consecutive_collapse([1, 9, 8, 6, 4, 5, 7, 9, 2])   # [1, 9, 2]
+p consecutive_collapse([3, 5, 6, 2, 1])               # [1]
+p consecutive_collapse([5, 7, 9, 9])                  # [5, 7, 9, 9]
+p consecutive_collapse([13, 11, 12, 12])              # []
