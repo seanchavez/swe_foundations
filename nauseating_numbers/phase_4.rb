@@ -1,5 +1,3 @@
-require "byebug"
-
 def mersenne_prime(n)
   count = 0
   pow = 1
@@ -55,8 +53,7 @@ def consecutive_collapse(nums)
   done = false
   until done
     done = true
-    #debugger
-    collapsed.each_index do |i|
+    (1...collapsed.length).each do |i|
       if collapsed[i - 1] == collapsed[i].pred || collapsed[i - 1] == collapsed[i].next
         collapsed = collapsed[0...i - 1] + collapsed[i + 1..-1]
         done = false
