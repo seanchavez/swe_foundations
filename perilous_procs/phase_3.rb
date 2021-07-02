@@ -75,10 +75,10 @@ p "------------"
 
 
 def proctition_platinum(arr, *procs)
-  trues = {}
+  trues = Hash.new {|h, k| h[k] = []}
   unavailable = Hash.new(false)
   procs.each_with_index do |prc, i|
-    trues[i+1] = []
+    trues[i+1]
     arr.each do |el| 
       unless unavailable[el]
         if prc.call(el) 
@@ -108,3 +108,95 @@ p proctition_platinum(['WHO', 'what', 'when!', 'WHERE!', 'how', 'WHY'], is_upcas
 p proctition_platinum(['WHO', 'what', 'when!', 'WHERE!', 'how', 'WHY'], begins_w, is_upcase, is_yelled, contains_a)
 # {1=>["WHO", "what", "when!", "WHERE!", "WHY"], 2=>[], 3=>[], 4=>[]}
 p "------------"
+
+
+def procipher(sent, hsh)
+  sent.split.map do |word|
+    new_word = word
+    hsh.each {|k, v| new_word = v.call(new_word) if k.call(word)}
+    new_word
+  end.join(" ")
+end
+
+is_yelled = Proc.new { |s| s[-1] == '!' }
+is_upcase = Proc.new { |s| s.upcase == s }
+contains_a = Proc.new { |s| s.downcase.include?('a') }
+make_question = Proc.new { |s| s + '???' }
+reverse = Proc.new { |s| s.reverse }
+add_smile = Proc.new { |s| s + ':)' }
+
+p procipher('he said what!',
+    is_yelled => make_question,
+    contains_a => reverse
+) # "he dias ???!tahw"
+
+p procipher('he said what!',
+    contains_a => reverse,
+    is_yelled => make_question
+) # "he dias !tahw???"
+
+p procipher('he said what!',
+    contains_a => reverse,
+    is_yelled => add_smile
+) # "he dias !tahw:)"
+
+p procipher('stop that taxi now',
+    is_upcase => add_smile,
+    is_yelled => reverse,
+    contains_a => make_question
+) # "stop that??? taxi??? now"
+
+p procipher('STOP that taxi now!',
+    is_upcase => add_smile,
+    is_yelled => reverse,
+    contains_a => make_question
+) # "STOP:) that??? taxi??? !won"
+p "------------"
+
+
+def picky_procipher(sent, hsh)
+  sent.split.map do |word|
+    new_word = word
+    hsh.each do |k, v| 
+      if k.call(word)
+        new_word = v.call(new_word) 
+        break
+      end
+    end
+    new_word
+  end.join(" ")
+end
+
+is_yelled = Proc.new { |s| s[-1] == '!' }
+is_upcase = Proc.new { |s| s.upcase == s }
+contains_a = Proc.new { |s| s.downcase.include?('a') }
+make_question = Proc.new { |s| s + '???' }
+reverse = Proc.new { |s| s.reverse }
+add_smile = Proc.new { |s| s + ':)' }
+
+p picky_procipher('he said what!',
+    is_yelled => make_question,
+    contains_a => reverse
+) # "he dias what!???"
+
+p picky_procipher('he said what!',
+    contains_a => reverse,
+    is_yelled => make_question
+) # "he dias !tahw"
+
+p picky_procipher('he said what!',
+    contains_a => reverse,
+    is_yelled => add_smile
+) # "he dias !tahw"
+
+p picky_procipher('stop that taxi now',
+    is_upcase => add_smile,
+    is_yelled => reverse,
+    contains_a => make_question
+) # "stop that??? taxi??? now"
+
+p picky_procipher('STOP that taxi!',
+    is_upcase => add_smile,
+    is_yelled => reverse,
+    contains_a => make_question
+) # "STOP:) that??? !ixat"
