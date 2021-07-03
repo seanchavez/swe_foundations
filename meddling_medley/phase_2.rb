@@ -25,7 +25,7 @@ def pigify_word(word)
   else
     if word[0] == word[0].upcase
       word[0] = word[0].downcase
-      word[first_vowel_index] = word[first_vowel_index].capitalize
+      word[first_vowel_index] = word[first_vowel_index].upcase
     end
     word[first_vowel_index..-1] + word[0...first_vowel_index] + "ay"
   end
@@ -39,8 +39,27 @@ p convert_pig_latin('Our family flew to France') # "Ouryay amilyfay ewflay to An
 puts "---------"
 
 
+def reverberate(sent)
+  sent.split.map {|word| word.length < 3 ? word : reverb_word(word)}.join(" ")
+end
 
+def reverb_word(word)
+  vowel_exp = /[aeiou]/i
+  last_vowel_index = nil
+  word.each_char.with_index do |char, i|
+    last_vowel_index = i if char =~ vowel_exp 
+  end
+  if last_vowel_index == word.length - 1
+    word[0] == word[0].upcase ? (word * 2).capitalize : word * 2
+  else
+    word + word[last_vowel_index..-1]
+  end
+end
 
+p reverberate('We like to go running fast') # "We likelike to go runninging fastast"
+p reverberate('He cannot find the trash') # "He cannotot findind thethe trashash"
+p reverberate('Pasta is my favorite dish') # "Pastapasta is my favoritefavorite dishish"
+p reverberate('Her family flew to France') # "Herer familyily flewew to Francefrance"
 puts "---------"
 
 
