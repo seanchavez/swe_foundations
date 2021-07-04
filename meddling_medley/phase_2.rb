@@ -119,7 +119,21 @@ p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran
 puts "---------"
 
 
+def silly_talk(sent)
+  vowel_exp = /[aeiou]/i
+  sent.split.map.with_index do |word, i|
+    if word[-1] =~ vowel_exp
+      word + word[-1]
+    else
+      word.chars.map do |char| 
+        char =~ vowel_exp ? char + "b" + char.downcase : char
+      end.join
+    end
+  end.join(" ")
+end
 
-
-
+p silly_talk('Kids like cats and dogs') # "Kibids likee cabats aband dobogs"
+p silly_talk('Stop that scooter') # "Stobop thabat scobooboteber"
+p silly_talk('They can code') # "Thebey caban codee"
+p silly_talk('He flew to Italy') # "Hee flebew too Ibitabaly"
 puts "---------"
