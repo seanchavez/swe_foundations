@@ -137,3 +137,22 @@ p silly_talk('Stop that scooter') # "Stobop thabat scobooboteber"
 p silly_talk('They can code') # "Thebey caban codee"
 p silly_talk('He flew to Italy') # "Hee flebew too Ibitabaly"
 puts "---------"
+
+
+def compress(str)
+  compressed = ""
+  count = 1
+  str.length.times do |i|
+    if str[i] == str[i+1]
+      count += 1
+    else
+      count < 2 ? compressed += str[i] : compressed += str[i] + count.to_s 
+      count = 1
+    end
+  end
+  compressed
+end
+
+p compress('aabbbbc')   # "a2b4c"
+p compress('boot')      # "bo2t"
+p compress('xxxyxxzzzz')# "x3yx2z4"
