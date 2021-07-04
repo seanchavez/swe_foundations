@@ -97,8 +97,6 @@ def alternating_vowel(sent)
     else
       first_i = word.index(vowel_exp)
       first_i.nil? ? word : word[0...first_i] + word[first_i + 1 .. -1]
-      first_vowel = word[word.index(vowel_exp) || word.length]
-      first_vowel || word
     end
   end.join(" ")
 end
