@@ -63,9 +63,63 @@ p reverberate('Her family flew to France') # "Herer familyily flewew to Francefr
 puts "---------"
 
 
+def disjunct_select(arr, *prcs)
+  arr.select {|el| prcs.any? {|prc| prc.call(el)}}
+end
 
+longer_four = Proc.new { |s| s.length > 4 }
+contains_o = Proc.new { |s| s.include?('o') }
+starts_a = Proc.new { |s| s[0] == 'a' }
 
+p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+    longer_four,
+) # ["apple", "teeming"]
+
+p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+    longer_four,
+    contains_o
+) # ["dog", "apple", "teeming", "boot"]
+
+p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+    longer_four,
+    contains_o,
+    starts_a
+) # ["ace", "dog", "apple", "teeming", "boot"]
 puts "---------"
+
+
+def alternating_vowel(sent)
+  vowel_exp = /[aeiou]/i
+  sent.split.map.with_index do |word, i|
+    if i.odd? 
+      last_i = word.last_index(vowel_exp)
+      last_i.nil? ? word : word[0...last_i] + word[last_i + 1 .. -1]
+    else
+      first_i = word.index(vowel_exp)
+      first_i.nil? ? word : word[0...first_i] + word[first_i + 1 .. -1]
+      first_vowel = word[word.index(vowel_exp) || word.length]
+      first_vowel || word
+    end
+  end.join(" ")
+end
+
+class String
+  def last_index(exp)
+    i = self.length - 1
+    until i < 0
+    return i if self[i] == exp || self[i] =~ exp
+    i -= 1
+    end
+    nil
+  end
+end
+
+p alternating_vowel('panthers are great animals') # "pnthers ar grat animls"
+p alternating_vowel('running panthers are epic') # "rnning panthrs re epc"
+p alternating_vowel('code properly please') # "cde proprly plase"
+p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran tday"
+puts "---------"
+
 
 
 
