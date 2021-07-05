@@ -21,7 +21,7 @@ class Board
 
   def print
     @grid.each do |row|
-      puts row.join(' ')
+      puts row
     end
   end
 
@@ -30,14 +30,20 @@ class Board
   end
 
   def win_col?(mark)
-    @grid.transpose..any? {|row| row.all? {|m| m == mark}}
+    @grid.transpose.any? {|row| row.all? {|m| m == mark}}
   end
 
-  def win_diagonal?
-    top_left = @grid[0][0]
-    bottom_left = @grid[-1][0]
-    top_to_bottom = @grid.each_with_index {|row, i| break unless row[i] == top_left}
-    bottom_to_top = @grid.reverse.each_with_index {|row, i| break unless row[i] == bottom_left}
-    top_to_bottom || bottom_to_top ? true : false
+  def win_diagonal?(mark)
+    top_to_bottom = @grid.each_with_index {|row, i| break unless row[i] == mark}
+    bottom_to_top = @grid.reverse.each_with_index {|row, i| break unless row[i] == mark}
+    !!(top_to_bottom || bottom_to_top)
+  end
+
+  def win?(mark)
+    win_row?(mark) || win_col?(mark) || win_diagonal?(mark)
+  end
+
+  def empty_positions?
+    @grid.any? {|row| row.any? {|m| m == "_"}}
   end
 end
