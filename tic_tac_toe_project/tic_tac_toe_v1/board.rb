@@ -21,8 +21,9 @@ class Board
 
   def print
     @grid.each do |row|
-      puts row
+      puts row.join(" ")
     end
+    puts
   end
 
   def win_row?(mark)
